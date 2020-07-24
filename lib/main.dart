@@ -15,16 +15,27 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        accentColor: Colors.purple,
         fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+          title: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          button: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
             title: TextStyle(
               fontFamily: 'OpenSans',
               fontSize: 20,
               fontWeight: FontWeight.bold,
-            )
+            ),
           ),
-        ),
+        )
       ),
       home: MyHomePage(),
     );

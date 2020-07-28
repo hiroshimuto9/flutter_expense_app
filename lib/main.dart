@@ -142,7 +142,10 @@ class _MyHomePageState extends State<MyHomePage> {
             if(isLandScape) Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Show Chart'),
+                Text(
+                  'Show Chart',
+                  style: Theme.of(context).textTheme.title,
+                ),
                 Switch.adaptive(
                   value: _showChart,
                   onChanged: (val) {

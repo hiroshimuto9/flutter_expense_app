@@ -101,6 +101,48 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(
+    MediaQueryData mediaQuery,
+    AppBar appbar,
+    txListWidget
+  ) {
+    return [Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Show Chart',
+                style: Theme.of(context).textTheme.title,
+              ),
+              Switch.adaptive(
+                value: _showChart,
+                onChanged: (val) {
+                  setState(() {
+                    _showChart = val;
+                  });
+              }),
+            ],
+          ),
+          _showChart ? Container(
+            height: (mediaQuery.size.height
+                      - appbar.preferredSize.height
+                      - mediaQuery.padding.top) * 0.7,
+            child: Chart(_recentTransactions)
+          ) : txListWidget];
+  }
+
+  List<Widget> _buildPortraitContent(
+    MediaQueryData mediaQuery,
+    AppBar appbar,
+    txListWidget
+  ) {
+    return [Container(
+            height: (mediaQuery.size.height
+                      - appbar.preferredSize.height
+                      - mediaQuery.padding.top) * 0.3,
+            child: Chart(_recentTransactions)
+          ), txListWidget];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -139,37 +181,19 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            if(isLandScape) Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Show Chart',
-                  style: Theme.of(context).textTheme.title,
-                ),
-                Switch.adaptive(
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                }),
-              ],
-            ),
-            if (!isLandScape)
-              Container(
-                height: (mediaQuery.size.height
-                          - appbar.preferredSize.height
-                          - mediaQuery.padding.top) * 0.3,
-                child: Chart(_recentTransactions)
-              ),
-            if(!isLandScape) txListWidget,
             if(isLandScape)
-              _showChart ? Container(
-                height: (mediaQuery.size.height
-                          - appbar.preferredSize.height
-                          - mediaQuery.padding.top) * 0.7,
-                child: Chart(_recentTransactions)
-              ) : txListWidget
+              ..._buildLandscapeContent(
+                mediaQuery,
+                appbar,
+                txListWidget
+
+              ),
+            if (!isLandScape)
+              ..._buildPortraitContent(
+                mediaQuery,
+                appbar,
+                txListWidget
+              ),
           ],
         ),
       ),
